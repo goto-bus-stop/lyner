@@ -1,0 +1,21 @@
+{ "name": "lyner"
+, "version": "0.0.0"
+, "description": "Somewhat speedy `<canvas>` renderer for drawing lots of mostly-unchanging lines."
+, "license": "MIT"
+, "keywords": [ "render", "canvas", "renderer", "lines" ]
+, "bugs": "https://github.com/goto-bus-stop/lyner/issues"
+, "author": "goto-bus-stop <rene@kooi.me>"
+, "main": "lib/Lyner"
+, "repository":
+  { "type": "git"
+  , "url" : "https://github.com/goto-bus-stop/lyner.git"
+  }
+, "devDependencies":
+  { "babel": "4.x" }
+, "optionalDependencies":
+  { "canvas": "1.x" }
+, "scripts":
+  { "babel": "./node_modules/.bin/babel --out-dir lib src"
+  , "browser": "browserify -e lib/Lyner.js -s lyner -o lib/browser.js -i canvas"
+  , "test": "./node_modules/.bin/mocha -r babel/register" }
+}
