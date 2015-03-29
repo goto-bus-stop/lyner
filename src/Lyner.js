@@ -7,9 +7,12 @@ import assign from 'object-assign'
 export default function Lyner(opts = {}) {
   if (!(this instanceof Lyner)) return new Lyner(opts)
 
-  this.camera = Camera(opts.camera || { x: 0, y: 0, zoom: 1 })
-  this.viewport = opts.canvas ? { width: opts.canvas.width
-                                , height: opts.canvas.height }
+  this.camera = opts.camera instanceof Camera
+              ? opts.camera
+              : Camera(opts.camera || { x: 0, y: 0, zoom: 1 })
+  this.viewport = opts.canvas
+                ? { width: opts.canvas.width
+                  , height: opts.canvas.height }
                 : { width: opts.width || 640
                   , height: opts.height || 480 }
   this.canvas = opts.canvas || createCanvas(this.viewport)
@@ -31,7 +34,7 @@ assign(Lyner.prototype, {
 
   add(line) {
     this._findCellsFor(line).forEach(cell => {
-      cell && cell.lines.push(line)
+      cell.lines.push(line)
     })
   },
 
@@ -58,15 +61,17 @@ assign(Lyner.prototype, {
   _findCellsFor(line) {
     const cs = this.cellSize
     return getCells(line.x0, line.y0,
-                    line.x1, line.y1, cs).map(({ x, y }) => {
-      return this._cell(Math.floor(x / cs), Math.floor(y / cs))
-    })
+                    line.x1, line.y1, cs)
+      .map(({ x, y }) => {
+        return this._cell(Math.floor(x / cs), Math.floor(y / cs))
+      })
   },
 
   clear() {
     this.context.clearRect(0, 0, this.viewport.width, this.viewport.height)
   },
 
+  // Returns an array of all grid cells that are currently visible on the canvas.
   visibleCells() {
     const z = 1 / this.camera.zoom
     const cs = this.cellSize
