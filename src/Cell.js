@@ -28,8 +28,13 @@ assign(Cell.prototype, {
                                 , height: this.height * cam.zoom })
     const ctx = canvas.getContext('2d')
     this._draw(ctx,
-               { x: this.x + this.width / 2, y: this.y + this.height / 2, zoom: cam.zoom },
-               { width: this.width * cam.zoom, height: this.height * cam.zoom })
+               // camera
+               { x: this.x + this.width / 2
+               , y: this.y + this.height / 2
+               , zoom: cam.zoom },
+               // viewport
+               { width: this.width * cam.zoom
+               , height: this.height * cam.zoom })
     this._canvas = canvas
     return canvas
   },
@@ -37,6 +42,7 @@ assign(Cell.prototype, {
   _draw(ctx, cam, viewport) {
     const center = { x: viewport.width / 2
                    , y: viewport.height / 2 }
+
     this.lines.forEach(line => {
       ctx.beginPath()
       ctx.strokeStyle = line.color

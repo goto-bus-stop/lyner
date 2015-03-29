@@ -78,8 +78,8 @@ assign(Lyner.prototype, {
     this.visibleCells().forEach(cell => {
       const c = cell.draw(cam)
       ctx.drawImage(c,
-                    (cell.x - cell.width  / 2 - cam.x) * cam.zoom + ct.x,
-                    (cell.y - cell.height / 2 - cam.y) * cam.zoom + ct.y)
+                    Math.floor((cell.x - cam.x) * cam.zoom + ct.x),
+                    Math.floor((cell.y - cam.y) * cam.zoom + ct.y))
     })
   },
 
