@@ -22,6 +22,7 @@ export default function Lyner(opts = {}) {
 
 assign(Lyner.prototype, {
 
+  // Creates and adds a line from (x0, y0) to (x1, y1).
   line(x0, y0, x1, y1, opts = {}) {
     const line = Line(x0, y0, x1, y1, opts)
     this.add(line)
@@ -31,6 +32,20 @@ assign(Lyner.prototype, {
   add(line) {
     this._findCellsFor(line).forEach(cell => {
       cell && cell.lines.push(line)
+    })
+  },
+
+  // Removes a line.
+  // Pass in a line instance created with lyner#line.
+  remove(line) {
+    this._findCellsFor(line).forEach(cell => {
+      for (let i = 0, l = cell.lines.length; i < l; i++) {
+        if (cell.lines[i] === line) {
+          cell.lines.splice(i, 1)
+          i--
+          cell.clear()
+        }
+      }
     })
   },
 
