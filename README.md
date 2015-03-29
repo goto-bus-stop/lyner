@@ -43,6 +43,10 @@ Adds a line from `(x0, y0)` to `(x1, y1)`. Possible options are:
 Returns the newly added line. A line has `x0`, `y0`, `x1`, `y1`, `width` and `color`
 properties intended primarily for reading.
 
+### renderer.remove(line)
+
+Removes a line from the world.
+
 ### renderer.canvas
 
 Contains the underlying canvas DOM element in the browser, or a `canvas` instance
