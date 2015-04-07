@@ -1,8 +1,19 @@
 import Line from './Line'
 import Cell from './Cell'
 import Camera from './Camera'
+import Grid from './Grid'
+import RenderCache from './RenderCache'
+import RenderCell from './RenderCell'
 import { createCanvas, getCells } from './util'
 import assign from 'object-assign'
+
+Lyner.Camera = Camera
+Lyner.Cell = Cell
+Lyner.Grid = Grid
+Lyner.Line = Line
+Lyner.Lyner = Lyner
+Lyner.RenderCache = RenderCache
+Lyner.RenderCell = RenderCell
 
 export default function Lyner(opts = {}) {
   if (!(this instanceof Lyner)) return new Lyner(opts)
@@ -18,9 +29,7 @@ export default function Lyner(opts = {}) {
   this.canvas = opts.canvas || createCanvas(this.viewport)
   this.context = this.canvas.getContext('2d')
 
-  this.cellSize = opts.cellSize || 100
-
-  this._grid = {}
+  this.grid = Grid(opts)
 }
 
 assign(Lyner.prototype, {
@@ -33,48 +42,25 @@ assign(Lyner.prototype, {
   },
 
   add(line) {
-    this._findCellsFor(line).forEach(cell => {
-      cell.lines.push(line)
-    })
+    this.grid.add(line)
   },
 
   // Removes a line.
   // Pass in a line instance created with lyner#line.
   remove(line) {
-    this._findCellsFor(line).forEach(cell => {
-      for (let i = 0, l = cell.lines.length; i < l; i++) {
-        if (cell.lines[i] === line) {
-          cell.lines.splice(i, 1)
-          i--
-          cell.clear()
-        }
-      }
-    })
-  },
-
-  _cell(x, y) {
-    const key = `${x},${y}`
-    return this._grid[key] ||
-      (this._grid[key] = Cell(x * this.cellSize, y * this.cellSize, { size: this.cellSize }))
-  },
-
-  _findCellsFor(line) {
-    const cs = this.cellSize
-    return getCells(line.x0, line.y0,
-                    line.x1, line.y1, cs)
-      .map(({ x, y }) => {
-        return this._cell(Math.floor(x / cs), Math.floor(y / cs))
-      })
+    this.grid.remove(line)
   },
 
   clear() {
     this.context.clearRect(0, 0, this.viewport.width, this.viewport.height)
   },
 
+  renderCache() { return this.grid.renderCache },
+
   // Returns an array of all grid cells that are currently visible on the canvas.
   visibleCells() {
     const z = 1 / this.camera.zoom
-    const cs = this.cellSize
+    const cs = this.grid.cellSize
     const left   = Math.floor((this.camera.x - this.viewport.width  / 2 * z) / cs)
     const top    = Math.floor((this.camera.y - this.viewport.height / 2 * z) / cs)
     const right  = Math.ceil ((this.camera.x + this.viewport.width  / 2 * z) / cs) + 1
@@ -83,7 +69,7 @@ assign(Lyner.prototype, {
     const cells = []
     for (let x = left; x <= right; x++) {
       for (let y = top; y <= bottom; y++) {
-        cells.push(this._cell(x, y))
+        cells.push(this.grid.cell(x, y))
       }
     }
 
@@ -95,8 +81,10 @@ assign(Lyner.prototype, {
     const ctx = this.context
     const ct = { x: this.viewport.width / 2
                , y: this.viewport.height / 2 }
+    const rc = this.renderCache()
+    const cs = this.grid.cellSize
     this.visibleCells().forEach(cell => {
-      const c = cell.draw(cam)
+      const c = rc.cell(cell.x / cs, cell.y / cs).draw(cell.lines, cam)
       ctx.drawImage(c,
                     Math.floor((cell.x - cam.x) * cam.zoom + ct.x),
                     Math.floor((cell.y - cam.y) * cam.zoom + ct.y))
@@ -105,7 +93,7 @@ assign(Lyner.prototype, {
 
   zoom(ticks) {
     this.camera.zoom *= Math.pow(1.1, -ticks)
-    Object.keys(this._grid).forEach(k => this._grid[k].clear())
+    this.renderCache().clear()
   }
 
 })

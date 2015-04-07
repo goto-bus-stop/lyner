@@ -1,5 +1,5 @@
 { "name": "lyner"
-, "version": "0.0.0"
+, "version": "0.1.0"
 , "description": "Somewhat speedy `<canvas>` renderer for drawing lots of mostly-unchanging lines."
 , "license": "MIT"
 , "keywords": [ "render", "canvas", "renderer", "lines" ]
