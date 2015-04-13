@@ -35,11 +35,13 @@ assign(Grid.prototype, {
       (this._grid[key] = Cell(x * this.cellSize, y * this.cellSize, { size: this.cellSize }))
   },
 
-  // Adds a line to the relevant cells in the grid.
+  // Adds a line to the relevant cells in the grid,
+  // and clears the relevant cache objects.
   add(line) {
+    const cs = this.cellSize
     this._findCellsFor(line).forEach(cell => {
       cell.lines.push(line)
-      // TODO clear relevant cache objects
+      this.renderCache.cell(cell.x / cs, cell.y / cs).clear()
     })
   },
 
