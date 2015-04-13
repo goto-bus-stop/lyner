@@ -7,6 +7,7 @@ import RenderCell from './RenderCell'
 import { createCanvas, getCells } from './util'
 import assign from 'object-assign'
 
+// exports
 Lyner.Camera = Camera
 Lyner.Cell = Cell
 Lyner.Grid = Grid
@@ -15,6 +16,7 @@ Lyner.Lyner = Lyner
 Lyner.RenderCache = RenderCache
 Lyner.RenderCell = RenderCell
 
+// Sets up a new lyner instance.
 export default function Lyner(opts = {}) {
   if (!(this instanceof Lyner)) return new Lyner(opts)
 

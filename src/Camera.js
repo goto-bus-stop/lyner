@@ -1,5 +1,6 @@
 import assign from 'object-assign'
 
+// Stores position and zoom level of the camera.
 export default function Camera(opts = {}) {
   if (!(this instanceof Camera)) return new Camera(opts)
 
@@ -10,5 +11,6 @@ export default function Camera(opts = {}) {
 
 assign(Camera.prototype, {
 
+  // Nothing much yet
 
 })

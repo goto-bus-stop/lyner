@@ -2,8 +2,8 @@ function Pt(x, y) { this.x = x, this.y = y }
 
 const { floor, round, ceil } = Math
 
-// creates a canvas element in the browser or a Canvas
-// instance on the server
+// Creates a canvas element in the browser or a Canvas
+// instance on the server.
 export function createCanvas({ width, height }) {
   if (typeof document === 'object' && typeof document.createElement === 'function') {
     const cv = document.createElement('canvas')
@@ -15,7 +15,7 @@ export function createCanvas({ width, height }) {
   return new Canvas(width, height)
 }
 
-
+// Finds all grid cells that intersect with the given line.
 export function getCells(x0, y0, x1, y1, cs = 1) {
   const intersects = []
   // dy / dx

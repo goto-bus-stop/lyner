@@ -1,6 +1,14 @@
 import assign from 'object-assign'
 import RenderCell from './RenderCell'
 
+// The RenderCache is a kind of separate grid from the data grid,
+// that only handles drawing. It keeps track of caching canvases
+// for every grid cell, so Lyner can just copy those canvases to
+// the output canvas instead of redrawing millions of lines all
+// the time.
+// This is separated from the data grid because you might want to
+// layer multiple instances of Lyner, while not vastly increasing
+// the amount of work that's done on every render.
 export default function RenderCache(opts = {}) {
   if (!(this instanceof RenderCache)) return new RenderCache(opts)
 
