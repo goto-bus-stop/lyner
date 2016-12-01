@@ -11,9 +11,9 @@
   , "url" : "https://github.com/goto-bus-stop/lyner.git"
   }
 , "dependencies":
-  { "object-assign": "2.x" }
+  { "object-assign": "^4.1.0" }
 , "devDependencies":
-  { "babel": "4.x" }
+  { "babel": "^6.5.2" }
 , "optionalDependencies":
   { "canvas": "1.x" }
 , "scripts":
