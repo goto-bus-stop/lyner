@@ -1,3 +1,4 @@
+const Vec2 = require('vec2')
 const { createCanvas } = require('./util')
 const assign = require('object-assign')
 
@@ -46,8 +47,7 @@ assign(RenderCell.prototype, {
     if (this._canvas && this._hasDrawn(lines)) return this._canvas
 
     const canvas = this._canvas ||
-                   createCanvas({ width: this.width * cam.zoom
-                                , height: this.height * cam.zoom })
+                   createCanvas(Vec2(this.width, this.height).multiply(cam.zoom))
     const ctx = canvas.getContext('2d')
     this._draw(lines, ctx,
                // camera
@@ -55,8 +55,7 @@ assign(RenderCell.prototype, {
                , y: this.y + this.height / 2
                , zoom: cam.zoom },
                // viewport
-               { width: this.width * cam.zoom
-               , height: this.height * cam.zoom })
+               Vec2(this.width, this.height).multiply(cam.zoom))
 
     this._drawn.push(lines)
     this._canvas = canvas
@@ -64,8 +63,7 @@ assign(RenderCell.prototype, {
   },
 
   _draw(lines, ctx, cam, viewport) {
-    const center = { x: viewport.width / 2
-                   , y: viewport.height / 2 }
+    const center = viewport.divide(2, true)
 
     lines.forEach(line => {
       ctx.beginPath()

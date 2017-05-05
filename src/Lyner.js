@@ -27,10 +27,8 @@ function Lyner(opts = {}) {
               ? opts.camera
               : Camera(opts.camera || { x: 0, y: 0, zoom: 1 })
   this.viewport = opts.canvas
-                ? { width: opts.canvas.width
-                  , height: opts.canvas.height }
-                : { width: opts.width || 640
-                  , height: opts.height || 480 }
+                ? Vec2(opts.canvas.width, opts.canvas.height)
+                : Vec2(opts.width || 640, opts.height || 480)
   this.canvas = opts.canvas || createCanvas(this.viewport)
   this.context = this.canvas.getContext('2d')
 
@@ -38,7 +36,6 @@ function Lyner(opts = {}) {
 }
 
 assign(Lyner.prototype, {
-
   // Creates and adds a line from (x0, y0) to (x1, y1).
   line(x0, y0, x1, y1, opts = {}) {
     const line = Line(Vec2(x0, y0), Vec2(x1, y1), opts)
@@ -57,7 +54,7 @@ assign(Lyner.prototype, {
   },
 
   clear() {
-    this.context.clearRect(0, 0, this.viewport.width, this.viewport.height)
+    this.context.clearRect(0, 0, this.viewport.x, this.viewport.y)
   },
 
   renderCache() { return this.grid.renderCache },
@@ -66,10 +63,10 @@ assign(Lyner.prototype, {
   visibleCells() {
     const z = 1 / this.camera.zoom
     const cs = this.grid.cellSize
-    const left   = Math.floor((this.camera.x - this.viewport.width  / 2 * z) / cs)
-    const top    = Math.floor((this.camera.y - this.viewport.height / 2 * z) / cs)
-    const right  = Math.ceil ((this.camera.x + this.viewport.width  / 2 * z) / cs) + 1
-    const bottom = Math.ceil ((this.camera.y + this.viewport.height / 2 * z) / cs) + 1
+    const left   = Math.floor((this.camera.x - this.viewport.x  / 2 * z) / cs)
+    const top    = Math.floor((this.camera.y - this.viewport.y / 2 * z) / cs)
+    const right  = Math.ceil ((this.camera.x + this.viewport.x  / 2 * z) / cs) + 1
+    const bottom = Math.ceil ((this.camera.y + this.viewport.y / 2 * z) / cs) + 1
 
     const cells = []
     for (let x = left; x <= right; x++) {
@@ -84,8 +81,7 @@ assign(Lyner.prototype, {
   draw() {
     const cam = this.camera
     const ctx = this.context
-    const ct = { x: this.viewport.width / 2
-               , y: this.viewport.height / 2 }
+    const ct = this.viewport.divide(2, true)
     const rc = this.renderCache()
     const cs = this.grid.cellSize
     this.visibleCells().forEach(cell => {
@@ -100,5 +96,4 @@ assign(Lyner.prototype, {
     this.camera.zoom *= Math.pow(1.1, -ticks)
     this.renderCache().clear()
   }
-
 })
