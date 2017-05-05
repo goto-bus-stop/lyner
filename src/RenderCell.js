@@ -1,11 +1,13 @@
-import { createCanvas } from './util'
-import assign from 'object-assign'
+const { createCanvas } = require('./util')
+const assign = require('object-assign')
+
+module.exports = RenderCell
 
 // A single render cache cell. This draws lines to canvas elements
 // and keeps them cached. It does *not* keep track of which lines
 // are in the locations of this grid cell, but instead receives
 // a list of lines to draw every time it's rendered.
-export default function RenderCell(x, y, opts = {}) {
+function RenderCell(x, y, opts = {}) {
   if (!(this instanceof RenderCell)) return new RenderCell(x, y, opts)
 
   this.x = x

@@ -1,7 +1,9 @@
-import assign from 'object-assign'
+const assign = require('object-assign')
+
+module.exports = Camera
 
 // Stores position and zoom level of the camera.
-export default function Camera(opts = {}) {
+function Camera(opts = {}) {
   if (!(this instanceof Camera)) return new Camera(opts)
 
   this.x = opts.x

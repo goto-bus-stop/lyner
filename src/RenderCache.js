@@ -1,5 +1,7 @@
-import assign from 'object-assign'
-import RenderCell from './RenderCell'
+const assign = require('object-assign')
+const RenderCell = require('./RenderCell')
+
+module.exports = RenderCache
 
 // The RenderCache is a kind of separate grid from the data grid,
 // that only handles drawing. It keeps track of caching canvases
@@ -9,7 +11,7 @@ import RenderCell from './RenderCell'
 // This is separated from the data grid because you might want to
 // layer multiple instances of Lyner, while not vastly increasing
 // the amount of work that's done on every render.
-export default function RenderCache(opts = {}) {
+function RenderCache(opts = {}) {
   if (!(this instanceof RenderCache)) return new RenderCache(opts)
 
   this.cellSize = opts.cellSize || 100

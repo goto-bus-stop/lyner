@@ -1,11 +1,13 @@
-import Line from './Line'
-import Cell from './Cell'
-import Camera from './Camera'
-import Grid from './Grid'
-import RenderCache from './RenderCache'
-import RenderCell from './RenderCell'
-import { createCanvas, getCells } from './util'
-import assign from 'object-assign'
+const Line = require('./Line')
+const Cell = require('./Cell')
+const Camera = require('./Camera')
+const Grid = require('./Grid')
+const RenderCache = require('./RenderCache')
+const RenderCell = require('./RenderCell')
+const { createCanvas, getCells } = require('./util')
+const assign = require('object-assign')
+
+module.exports = Lyner
 
 // exports
 Lyner.Camera = Camera
@@ -17,7 +19,7 @@ Lyner.RenderCache = RenderCache
 Lyner.RenderCell = RenderCell
 
 // Sets up a new lyner instance.
-export default function Lyner(opts = {}) {
+function Lyner(opts = {}) {
   if (!(this instanceof Lyner)) return new Lyner(opts)
 
   this.camera = opts.camera instanceof Camera

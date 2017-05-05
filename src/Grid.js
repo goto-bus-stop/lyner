@@ -1,7 +1,9 @@
-import assign from 'object-assign'
-import Cell from './Cell'
-import RenderCache from './RenderCache'
-import { getCells } from './util'
+const assign = require('object-assign')
+const Cell = require('./Cell')
+const RenderCache = require('./RenderCache')
+const { getCells } = require('./util')
+
+module.exports = Grid
 
 // Manages line data across grid cells, and manages the render cache.
 // `opts` can take options:
@@ -11,7 +13,7 @@ import { getCells } from './util'
 //    this grid instance.
 //    Note that the render cache cell size and the grid cell size **must**
 //    always be the same to get decent results.
-export default function Grid(opts = {}) {
+function Grid(opts = {}) {
   if (!(this instanceof Grid)) return new Grid(opts)
 
   this.cellSize = opts.cellSize || 100

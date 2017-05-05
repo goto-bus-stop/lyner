@@ -1,6 +1,7 @@
+module.exports = Line
 
 // Represents a line segment in the grid.
-export default function Line(x0, y0, x1, y1, opts = {}) {
+function Line(x0, y0, x1, y1, opts = {}) {
   if (!(this instanceof Line)) return new Line(x0, y0, x1, y1, opts)
 
   this.x0 = x0
