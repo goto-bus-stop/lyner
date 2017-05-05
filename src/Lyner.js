@@ -33,9 +33,16 @@ function Lyner(opts = {}) {
   this.context = this.canvas.getContext('2d')
 
   this.grid = Grid(opts)
+  this.layers = []
 }
 
 assign(Lyner.prototype, {
+  layer() {
+    const layer = Lyner({ canvas: this.canvas, camera: this.camera })
+    this.layers.push(layer)
+    return layer
+  },
+
   // Creates and adds a line from (x0, y0) to (x1, y1).
   line(x0, y0, x1, y1, opts = {}) {
     const line = Line(Vec2(x0, y0), Vec2(x1, y1), opts)
@@ -89,6 +96,10 @@ assign(Lyner.prototype, {
       ctx.drawImage(c,
                     Math.floor((cell.x - cam.x) * cam.zoom + ct.x),
                     Math.floor((cell.y - cam.y) * cam.zoom + ct.y))
+    })
+
+    this.layers.forEach(layer => {
+      layer.draw()
     })
   },
 
