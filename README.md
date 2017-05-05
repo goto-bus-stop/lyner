@@ -25,9 +25,11 @@ requestAnimationFrame(function frame() {
 
 ### Layered
 
+You can draw multiple `lyner` instances on top of each other to create multiple layers on a single canvas.
+
 ```javascript
 const background = lyner()
-const foreground = lyner({ canvas: background.canvas })
+const foreground = lyner({ canvas: background.canvas, camera: background.camera })
 
 background.line(0, 0, 100, 100, { color: 'black' })
 foreground.line(0, 100, 100, 0, { color: 'pink'  })
@@ -40,7 +42,25 @@ requestAnimationFrame(function frame() {
   foreground.draw()
   requestAnimationFrame(frame)
 })
+```
 
+For convenience, the `layer` method lets you not worry about passing the correct camera and canvas.
+
+```js
+const renderer = lyner()
+const background = renderer.layer()
+const foreground = renderer.layer()
+
+// Note: you can still draw things directly on `renderer`.
+background.line(0, 0, 100, 100, { color: 'black' })
+foreground.line(0, 100, 100, 0, { color: 'pink'  })
+
+requestAnimationFrame(function frame() {
+  renderer.clear()
+  // This will now render both layers.
+  renderer.draw()
+  requestAnimationFrame(frame)
+})
 ```
 
 ## API
