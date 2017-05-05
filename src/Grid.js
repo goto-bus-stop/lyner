@@ -64,7 +64,7 @@ assign(Grid.prototype, {
   _findCellsFor(line) {
     const cs = this.cellSize
     return getCells(line.x0, line.y0, line.x1, line.y1, cs)
-      .map(({ x, y }) => this.cell(Math.floor(x / cs), Math.floor(y / cs)))
+      .map(({ x, y }) => this.cell(x, y))
   }
 
 })
