@@ -1,3 +1,4 @@
+const Vec2 = require('vec2')
 const Line = require('./Line')
 const Cell = require('./Cell')
 const Camera = require('./Camera')
@@ -40,7 +41,7 @@ assign(Lyner.prototype, {
 
   // Creates and adds a line from (x0, y0) to (x1, y1).
   line(x0, y0, x1, y1, opts = {}) {
-    const line = Line(x0, y0, x1, y1, opts)
+    const line = Line(Vec2(x0, y0), Vec2(x1, y1), opts)
     this.add(line)
     return line
   },

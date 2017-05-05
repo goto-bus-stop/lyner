@@ -1,14 +1,17 @@
+const inherits = require('inherits')
+const Segment2 = require('segment2')
+
 module.exports = Line
 
 // Represents a line segment in the grid.
-function Line(x0, y0, x1, y1, opts = {}) {
-  if (!(this instanceof Line)) return new Line(x0, y0, x1, y1, opts)
+function Line(start, end, opts = {}) {
+  if (!(this instanceof Line)) return new Line(start, end, opts)
 
-  this.x0 = x0
-  this.y0 = y0
-  this.x1 = x1
-  this.y1 = y1
+  Segment2.call(this, start, end)
 
   this.color = opts.color || 'black'
   this.width = opts.width != null ? opts.width : 1
 }
+
+inherits(Line, Segment2)
+

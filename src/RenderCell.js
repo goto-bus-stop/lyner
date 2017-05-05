@@ -71,10 +71,10 @@ assign(RenderCell.prototype, {
       ctx.beginPath()
       ctx.strokeStyle = line.color
       ctx.lineWidth = line.width * cam.zoom
-      ctx.moveTo((line.x0 - cam.x) * cam.zoom + center.x,
-                 (line.y0 - cam.y) * cam.zoom + center.y)
-      ctx.lineTo((line.x1 - cam.x) * cam.zoom + center.x,
-                 (line.y1 - cam.y) * cam.zoom + center.y)
+      ctx.moveTo((line.start.x - cam.x) * cam.zoom + center.x,
+                 (line.start.y - cam.y) * cam.zoom + center.y)
+      ctx.lineTo((line.end.x - cam.x) * cam.zoom + center.x,
+                 (line.end.y - cam.y) * cam.zoom + center.y)
       ctx.stroke()
     })
   }

@@ -14,10 +14,10 @@ exports.createCanvas = function createCanvas({ width, height }) {
 }
 
 // Finds all grid cells that intersect with the given line.
-exports.getCells = function getCells(x0, y0, x1, y1, cs = 1) {
+exports.getCells = function getCells(start, end, cs = 1) {
   const walker = gw(cs, cs)
   const coords = []
-  walker.walk({ x: x0, y: y0 }, { x: x1, y: y1 }, ({ row, column }) => {
+  walker.walk(start, end, ({ row, column }) => {
     coords.push({ x: column, y: row })
   })
   return coords
